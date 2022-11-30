@@ -1,5 +1,6 @@
 # HackTheBox Labs
 ## Starting Point
+### Tier 0
 - [Redeemer](./Redeemer.md)
 ## Tracks
 ## Machines
