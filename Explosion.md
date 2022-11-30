@@ -104,9 +104,11 @@ Password:
 ```
 
 It works. We found the flag. Let's keep going and probe around a bit.
+
 ![image](https://user-images.githubusercontent.com/114029528/204775880-f1405604-756c-4745-a1d3-bfa7b8e6a2de.png)
 
 Open a command prompt using the FreeRDP interface.
+
 ![image](https://user-images.githubusercontent.com/114029528/204775974-88768dd0-632d-406a-a8c3-277ca623c3a3.png)
 
 
