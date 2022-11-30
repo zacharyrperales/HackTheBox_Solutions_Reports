@@ -1,3 +1,5 @@
+# Starting Point — Tier 0: Redeemer
+
 * Use **ping** to check if the host is up.
 ```shell
 $ ping 10.129.57.87 -c 1
