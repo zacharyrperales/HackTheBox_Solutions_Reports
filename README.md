@@ -3,7 +3,7 @@
 ### Tier 0
 - [Redeemer](./Redeemer.md)
 - [Explosion](./Explosion.md)
-- [Preigintiion](./Preiginition.md)
+- [Preigintiion](./Preignition.md)
 ## Tracks
 ## Machines
 ## Challenges 
