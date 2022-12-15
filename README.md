@@ -2,6 +2,7 @@
 ["Try harder"](https://www.offensive-security.com/offsec/what-it-means-to-try-harder/)
 ## Starting Point
 ### Tier 0
+- [Meow](./Meow.md)
 - [Redeemer](./Redeemer.md)
 - [Explosion](./Explosion.md)
 - [Preigintiion](./Preignition.md)
