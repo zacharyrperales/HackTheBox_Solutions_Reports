@@ -345,5 +345,135 @@ madison.hermiston,grant.mariano@example.com,b79417a62e0e2391483f869e33fbbcc8
 clare08,fhickle@example.net,12d70565b1645ae77a607bacaf42bd03
 ```
 
-It appears that there are two types of hashes being used for the passwords and that the longer of the two types
-belong to potential administrators. We can return at a later time to explore further use of this information.
+Use `hash-identifier` to identify the two different types of hashes.
+
+```console
+kali@kali:~/Mongod$ hash-identifier fff4b345de2aee9f1fa5e2a44b3b03378b189d1e                   
+   #########################################################################
+   #     __  __                     __           ______    _____           #
+   #    /\ \/\ \                   /\ \         /\__  _\  /\  _ `\         #
+   #    \ \ \_\ \     __      ____ \ \ \___     \/_/\ \/  \ \ \/\ \        #
+   #     \ \  _  \  /'__`\   / ,__\ \ \  _ `\      \ \ \   \ \ \ \ \       #
+   #      \ \ \ \ \/\ \_\ \_/\__, `\ \ \ \ \ \      \_\ \__ \ \ \_\ \      #
+   #       \ \_\ \_\ \___ \_\/\____/  \ \_\ \_\     /\_____\ \ \____/      #
+   #        \/_/\/_/\/__/\/_/\/___/    \/_/\/_/     \/_____/  \/___/  v1.2 #
+   #                                                             By Zion3R #
+   #                                                    www.Blackploit.com #
+   #                                                   Root@Blackploit.com #
+   #########################################################################
+--------------------------------------------------
+
+Possible Hashs:
+[+] SHA-1
+[+] MySQL5 - SHA-1(SHA-1($pass))
+...
+kali@kali:~/Mongod$ hash-identifier 12d70565b1645ae77a607bacaf42bd03        
+   #########################################################################
+   #     __  __                     __           ______    _____           #
+   #    /\ \/\ \                   /\ \         /\__  _\  /\  _ `\         #
+   #    \ \ \_\ \     __      ____ \ \ \___     \/_/\ \/  \ \ \/\ \        #
+   #     \ \  _  \  /'__`\   / ,__\ \ \  _ `\      \ \ \   \ \ \ \ \       #
+   #      \ \ \ \ \/\ \_\ \_/\__, `\ \ \ \ \ \      \_\ \__ \ \ \_\ \      #
+   #       \ \_\ \_\ \___ \_\/\____/  \ \_\ \_\     /\_____\ \ \____/      #
+   #        \/_/\/_/\/__/\/_/\/___/    \/_/\/_/     \/_____/  \/___/  v1.2 #
+   #                                                             By Zion3R #
+   #                                                    www.Blackploit.com #
+   #                                                   Root@Blackploit.com #
+   #########################################################################
+--------------------------------------------------
+
+Possible Hashs:
+[+] MD5
+[+] Domain Cached Credentials - MD4(MD4(($pass)).(strtolower($username)))
+...
+```
+
+We are going to go with SHA-1 and MD5. Let's return to the users.csv file.
+
+```console
+kali@kali:~/Mongod$ cat users.csv
+username,email,password
+Ryley,vheathcote@example.net,fff4b345de2aee9f1fa5e2a44b3b03378b189d1e
+Bertha,astreich@example.net,085ed623db4b520f59ab1b6b6d222eea94ceb4cb
+Maximillian,trent.carroll@example.org,3859489a17b1cf46251aca8984af8da43356e496
+Giuseppe,bernadine81@example.com,cb4a1ed66f998facd1a39b32f0f1ee698ee7e166
+Darrell,pblanda@example.org,6fd69f347d34d5dacd62f45851c4052a69ef8a94
+itrantow,boyer.elna@example.com,e5f81b290486127cdb76133ecb7d9b1d
+mayra34,lferry@example.org,03a8f2ef52750aa1f257817198f2d9d1
+hahn.maritza,klubowitz@example.com,ef6b43e3406e5cd3d6165d104885d6f3
+cremin.eliza,mgutkowski@example.org,e4d416c0d0e2c39e234538487bd4a90f
+jazmyne.raynor,uwisoky@example.com,6a7e8382202666495e7af9e8c4eeae01
+jon68,waters.weston@example.org,e8c1edfcd54021b2952dc9441492176f
+ifunk,eino52@example.net,e1e5a4399b6ab48fc6ca314b84874f66
+evalyn27,jason36@example.net,20bac8efa1198ff21fa7030fa3f43223
+zella.muller,kolby25@example.net,0561f0e68c602590e006a41b8a945d2f
+benjamin.doyle,ubruen@example.net,cf0e43dedbf57f134467f989b64b2126
+lchamplin,alexandrea00@example.net,9d2b39f53e4ef079c060fe87f8eefbbc
+cruickshank.raheem,rice.tia@example.com,e5d355b7dafcd1e85e0d020200e4ed5a
+qhomenick,wwisozk@example.org,d62d83b7d1884a7ed45f585ddfa9cb03
+collins.minnie,edmond50@example.com,85a48b7fc09b174c51ae4c21f31f1817
+qrowe,wiegand.elvis@example.net,e7a85a658512704a83b72172e9928ad0
+heath71,beer.karl@example.com,a9a7671d92596e9be92bd7f62dc5a55d
+epredovic,erunte@example.net,91b8fd1069cc926743431e40a16cb308
+magdalen19,mercedes.hessel@example.net,a97b27935eae7467f599975ece4eb821
+madison.hermiston,grant.mariano@example.com,b79417a62e0e2391483f869e33fbbcc8
+clare08,fhickle@example.net,12d70565b1645ae77a607bacaf42bd03
+```
+
+We are going to create 4 files with data formatted as so: username:SHA-1, username:MD5, email_prefix:SHA-1, email_prefix:MD5.
+
+```console
+kali@kali:~/Mongod/john$ ls
+email_prefixes_passwords_md5.txt    users_passwords_md5.txt
+email_prefixes_passwords_sha_1.txt  users_passwords_sha1.txt
+```
+
+We will use *John the Ripper* to try and crack the passwords by mangling the corresponding username or email_prefix.
+
+```console
+kali@kali:~/Mongod/john$ john --single --format=Raw-MD5 users_passwords_md5.txt
+Using default input encoding: UTF-8
+Loaded 20 password hashes with no different salts (Raw-MD5 [MD5 128/128 SSE2 4x3])
+Warning: no OpenMP support for this hash type, consider --fork=8
+Press 'q' or Ctrl-C to abort, almost any other key for status
+Almost done: Processing the remaining buffered candidate passwords, if any.
+0g 0:00:00:00 DONE (2023-03-11 01:51) 0g/s 2714Kp/s 2714Kc/s 54286KC/s maritza1900..itrantow1900
+Session completed. 
+                                                                                                               
+kali@kali:~/Mongod/john$ john --single --format=Raw-MD5 email_prefixes_passwords_md5.txt
+Using default input encoding: UTF-8
+Loaded 20 password hashes with no different salts (Raw-MD5 [MD5 128/128 SSE2 4x3])
+Warning: no OpenMP support for this hash type, consider --fork=8
+Press 'q' or Ctrl-C to abort, almost any other key for status
+Almost done: Processing the remaining buffered candidate passwords, if any.
+0g 0:00:00:00 DONE (2023-03-11 01:51) 0g/s 1676Kp/s 1676Kc/s 33539KC/s bboyer1900..eboyer1900
+Session completed. 
+
+kali@kali:~/Mongod/john$ john --single --format=Raw-SHA1 users_passwords_sha_1.txt 
+Using default input encoding: UTF-8
+Loaded 5 password hashes with no different salts (Raw-SHA1 [SHA1 128/128 SSE2 4x])
+Warning: no OpenMP support for this hash type, consider --fork=8
+Press 'q' or Ctrl-C to abort, almost any other key for status
+Warning: Only 4 candidates buffered for the current salt, minimum 8 needed for performance.
+Almost done: Processing the remaining buffered candidate passwords, if any.
+0g 0:00:00:00 DONE (2023-03-11 01:52) 0g/s 113000p/s 113000c/s 565000C/s ryley1900
+Session completed. 
+                                                                                                               
+kali@kali:~/Mongod/john$ john --single --format=Raw-SHA1 email_prefixes_passwords_sha_1.txt
+Using default input encoding: UTF-8
+Loaded 5 password hashes with no different salts (Raw-SHA1 [SHA1 128/128 SSE2 4x])
+Warning: no OpenMP support for this hash type, consider --fork=8
+Press 'q' or Ctrl-C to abort, almost any other key for status
+Warning: Only 4 candidates buffered for the current salt, minimum 8 needed for performance.
+Almost done: Processing the remaining buffered candidate passwords, if any.
+0g 0:00:00:00 DONE (2023-03-11 01:52) 0g/s 396775p/s 396775c/s 1983KC/s carrolltrent1900..vheathcote1900
+Session completed.
+```
+
+No luck. This topic will be revisted later.
+
+
+
+
+
+
